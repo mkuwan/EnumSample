@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using EnumSample.Extentions;
 
 namespace EnumSample
 {
@@ -9,8 +11,17 @@ namespace EnumSample
 
         static void Main(string[] args)
         {
-            Console.WriteLine();
 
+            //Test1();
+
+            Test2();
+        }
+
+        /// <summary>
+        /// 最初に作ったもの
+        /// </summary>
+        static void Test1()
+        {
             Console.WriteLine("enum値のままで表示させた場合");
             Console.WriteLine(SampleEnum.Tokyo);
             Console.WriteLine(SampleEnum.Nagoya);
@@ -47,7 +58,7 @@ namespace EnumSample
 
             Console.WriteLine("GetEnumListを使ってenumの値リストを取得");
             var enums = EnumHelper.GetEnumList<SampleEnum>();
-            foreach(var e in enums)
+            foreach (var e in enums)
                 Console.WriteLine(e);
             Console.WriteLine();
 
@@ -58,8 +69,66 @@ namespace EnumSample
             Console.WriteLine();
 
             Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Extentionを使用
+        /// </summary>
+        static void Test2()
+        {
+            Console.WriteLine("EnumExtention  GetDescriptionFromValueを使ってTokyoのDescriptionを取得");
+            Console.WriteLine(SampleEnum.Tokyo.GetDescriptionFromValue());
+            Console.WriteLine();
+
+            Console.WriteLine("StringExtention  GetEnumValueFromDescriptionを使ってDescriptionからenum値を取得");
+            Console.WriteLine("名古屋".GetEnumValueFromDescription<SampleEnum>());
+            Console.WriteLine();
+
+            Console.WriteLine("IntExtention  GetEnumDescriptionFromIntを使ってint値からDescriptionを取得");
+            var sapporo = ((int)5).GetEnumDescriptionFromInt<SampleEnum>();
+            Console.WriteLine(sapporo);
+            Console.WriteLine();
+
+            Console.WriteLine("IntExtention  GetEnumValueFromIntを使ってint値からenum値を取得");
+            var osaka = ((int)7).GetEnumValueFromInt<SampleEnum>();
+            Console.WriteLine(osaka);
+            Console.WriteLine();
+
+            Console.WriteLine("TypeExtention  GetEnumListを使ってenumの値リストを取得");
+            var enumValues = typeof(SampleEnum).GetEnumList<SampleEnum>();
+            foreach (var e in enumValues)
+                Console.WriteLine(e);
+
+            Console.WriteLine();
+
+            Console.WriteLine("TypeExtention  GetEnumDescriptionListを使ってDescriptionリストを取得");
+            var enumDescriptions = typeof(SampleEnum).GetEnumDescriptionList<SampleEnum>();
+            foreach (var e in enumDescriptions)
+                Console.WriteLine(e);
+
+            Console.WriteLine();
+
+            Console.WriteLine("TypeExtention  GetEnumDescriptionEnumerableを使ってDescriptionリストを取得");
+            var enumDescriptionsEnumerable = typeof(SampleEnum).GetEnumDescriptionEnumerable<SampleEnum>();
+            foreach (var e in enumDescriptionsEnumerable)
+                Console.WriteLine(e);
+
+            Console.WriteLine();
+
+            try
+            {
+                Console.WriteLine("Descriptionにない文字を使った場合　エラーを起こす");
+                Console.WriteLine("愛知".GetEnumValueFromDescription<SampleEnum>());
+                Console.ReadLine();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.ReadLine();
+            }
 
         }
+
 
         /// <summary>
         /// enum値を日本語に変換します
@@ -86,20 +155,5 @@ namespace EnumSample
                     return null;
             }
         }
-    }
-
-    public enum SampleEnum
-    {
-        [Description("東京")]
-        Tokyo = 1,
-
-        [Description("名古屋")]
-        Nagoya = 3,
-
-        [Description("札幌")]
-        Sapporo = 5,
-
-        [Description("大阪")]
-        Osaka = 7
     }
 }

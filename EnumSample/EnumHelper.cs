@@ -9,11 +9,12 @@ namespace EnumSample
     public static class EnumHelper
     {
         /// <summary>
-        /// 列挙体フィールドのDescriptionを取得する。
+        /// 列挙体フィールドのDescriptionを取得する
         /// </summary>
-        /// <param name="value">列挙体値</param>
-        /// <returns>Description文字列</returns>
-        public static string GetEnumDescriptionFromValue<T>(object value)
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetEnumDescriptionFromValue<T>(object value) where T : Enum
         {
             var type = typeof(T);
             if (!type.IsEnum)
@@ -30,14 +31,6 @@ namespace EnumSample
                 if (strValue.Length > 0)
                 {
                     FieldInfo fieldInfo = type.GetField(strValue);
-
-                    // Descriptionが複数ある場合はこちらのコードにします
-                    //var attrebutes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                    //var dcs = attrebutes.Select(x => x.Description).FirstOrDefault();
-                    //if(dcs != null)
-                    //{
-                    //    description = dcs;
-                    //}
 
                     Attribute attribute = Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute));
                     if (attribute != null)
@@ -58,7 +51,7 @@ namespace EnumSample
         /// <typeparam name="T"></typeparam>
         /// <param name="description"></param>
         /// <returns></returns>
-        public static T GetEnumValueFromDescription<T>(string description)
+        public static T GetEnumValueFromDescription<T>(string description) where T : Enum
         {
             var type = typeof(T);
             if (!type.IsEnum)
@@ -79,12 +72,11 @@ namespace EnumSample
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string GetEnumDescriptionFromInt<T>(int value)
+        public static string GetEnumDescriptionFromInt<T>(int value) where T : Enum
         {
             var type = typeof(T);
             if (!type.IsEnum)
                 throw new ArgumentException();
-
             var enumValue = (T)Enum.ToObject(type, value);
 
             return GetEnumDescriptionFromValue<T>(enumValue);
@@ -97,7 +89,7 @@ namespace EnumSample
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static T GetEnumValueFromInt<T>(int value)
+        public static T GetEnumValueFromInt<T>(int value) where T : Enum
         {
             var type = typeof(T);
             if (!type.IsEnum)
@@ -111,14 +103,10 @@ namespace EnumSample
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static List<T> GetEnumList<T>()
+        public static List<T> GetEnumList<T>() where T : Enum
         {
-            var type = typeof(T);
-            if (!type.IsEnum)
-                throw new ArgumentException();
-
             List<T> values = new List<T>();
-            foreach (T value in Enum.GetValues(type))
+            foreach (T value in Enum.GetValues(typeof(T)))
             {
                 values.Add(value);
             }
@@ -130,14 +118,10 @@ namespace EnumSample
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static List<string> GetEnumDescriptionList<T>()
+        public static List<string> GetEnumDescriptionList<T>() where T : Enum
         {
-            var type = typeof(T);
-            if (!type.IsEnum)
-                throw new ArgumentException();
-
             List<string> descriptions = new List<string>();
-            foreach (T value in Enum.GetValues(type))
+            foreach (T value in Enum.GetValues(typeof(T)))
             {
                 var description = GetEnumDescriptionFromValue<T>(value);
                 descriptions.Add(description);
