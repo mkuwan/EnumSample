@@ -74,10 +74,8 @@ namespace EnumSample
         /// <returns></returns>
         public static string GetEnumDescriptionFromInt<T>(int value) where T : Enum
         {
-            var type = typeof(T);
-            if (!type.IsEnum)
-                throw new ArgumentException();
-            var enumValue = (T)Enum.ToObject(type, value);
+            //var enumValue = (T)value;
+            var enumValue = (T)Enum.ToObject(typeof(T), value);
 
             return GetEnumDescriptionFromValue<T>(enumValue);
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -29,102 +28,6 @@ namespace EnumSample.Extentions
                 ?.Description;                  //DescriptionAttributeがあればDescriptionを、なければnullを返す
 
             return description ?? strValue;     //descriptionがnullならstrValueを返す
-        }
-    }
-
-
-
-    public static class StringExtention
-    {
-        /// <summary>
-        /// EnumのDescriptionからValueを取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="description"></param>
-        /// <returns></returns>
-        public static T GetEnumValueFromDescription<T>(this string description) where T : Enum
-        {
-            var value =
-                typeof(T).GetFields()
-                .SelectMany(x => x.GetCustomAttributes(typeof(DescriptionAttribute), false),
-                    (f, a) => new { field = f, attribute = a })
-                .Where(x => ((DescriptionAttribute)x.attribute).Description == description)
-                .FirstOrDefault()
-                ?.field.GetRawConstantValue();
-
-
-            //// 値が見つからない場合にエラーとする場合はこちら
-            //return (T)(value ?? throw new ArgumentNullException());
-
-            return (T)(value ?? default(T));
-
-        }
-    }
-
-    public static class IntExtention
-    {
-        /// <summary>
-        /// int値からEnumのDescription取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static string GetEnumDescriptionFromInt<T>(this int value) where T : Enum
-        {
-            //var enumValue = (T)value;         //コンパイラ エラー CS0030が起きる・・・
-
-            var enumValue = (T)Enum.ToObject(typeof(T), value);
-
-            return enumValue.GetDescriptionFromValue();
-        }
-
-        /// <summary>
-        /// int値からEnumのValueを取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static T GetEnumValueFromInt<T>(this int value) where T : Enum
-        {
-            return (T)Enum.ToObject(typeof(T), value);
-        }
-    }
-
-    public static class TypeExtention
-    {
-        /// <summary>
-        /// enumの値リストを取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static List<T> GetEnumList<T>(this Type type) where T : Enum
-        {
-            return Enum.GetValues(typeof(T)).Cast<T>().ToList();
-        }
-
-        /// <summary>
-        /// enumのDescripntionリストを取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static IEnumerable<string> GetEnumDescriptionEnumerable<T>(this Type type) where T : Enum
-        {
-            foreach (T value in Enum.GetValues(typeof(T)))
-                yield return value.GetDescriptionFromValue();
-        }
-
-        /// <summary>
-        /// enumのDescripntionリストを取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static List<string> GetEnumDescriptionList<T>(this Type type) where T : Enum
-        {
-            List<string> descriptionList = new List<string>();
-            foreach (T value in Enum.GetValues(typeof(T)))
-                descriptionList.Add(value.GetDescriptionFromValue());
-
-            return descriptionList;
         }
     }
 }

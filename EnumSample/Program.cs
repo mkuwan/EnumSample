@@ -85,25 +85,25 @@ namespace EnumSample
             Console.WriteLine();
 
             Console.WriteLine("IntExtention  GetEnumDescriptionFromIntを使ってint値からDescriptionを取得");
-            var sapporo = ((int)5).GetEnumDescriptionFromInt<SampleEnum>();
+            var sapporo = 5.GetEnumDescriptionFromInt<SampleEnum>();
             Console.WriteLine(sapporo);
             Console.WriteLine();
 
             Console.WriteLine("IntExtention  GetEnumValueFromIntを使ってint値からenum値を取得");
-            var osaka = ((int)7).GetEnumValueFromInt<SampleEnum>();
+            var osaka = 7.GetEnumValueFromInt<SampleEnum>();
             Console.WriteLine(osaka);
             Console.WriteLine();
 
             Console.WriteLine("TypeExtention  GetEnumListを使ってenumの値リストを取得");
             var enumValues = typeof(SampleEnum).GetEnumList<SampleEnum>();
-            foreach (var e in enumValues)
+            foreach (SampleEnum e in enumValues)
                 Console.WriteLine(e);
 
             Console.WriteLine();
 
             Console.WriteLine("TypeExtention  GetEnumDescriptionListを使ってDescriptionリストを取得");
             var enumDescriptions = typeof(SampleEnum).GetEnumDescriptionList<SampleEnum>();
-            foreach (var e in enumDescriptions)
+            foreach (string e in enumDescriptions)
                 Console.WriteLine(e);
 
             Console.WriteLine();
