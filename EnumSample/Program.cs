@@ -115,17 +115,19 @@ namespace EnumSample
 
             Console.WriteLine();
 
-            try
-            {
-                Console.WriteLine("Descriptionにない文字を使った場合　エラーを起こす");
-                Console.WriteLine("愛知".GetEnumValueFromDescription<SampleEnum>());
-                Console.ReadLine();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Console.ReadLine();
-            }
+            Console.ReadLine();
+
+            //try
+            //{
+            //    Console.WriteLine("Descriptionにない文字を使った場合　エラーを起こす");
+            //    Console.WriteLine("愛知".GetEnumValueFromDescription<SampleEnum>());
+            //    Console.ReadLine();
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //    Console.ReadLine();
+            //}
 
         }
 

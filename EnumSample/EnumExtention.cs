@@ -32,45 +32,6 @@ namespace EnumSample.Extentions
         }
     }
 
-    public static class TypeExtention
-    {
-        /// <summary>
-        /// enumの値リストを取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static List<T> GetEnumList<T>(this Type type) where T : Enum
-        {
-            return Enum.GetValues(typeof(T)).Cast<T>().ToList();
-        }
-
-        /// <summary>
-        /// enumのDescripntionリストを取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static IEnumerable<string> GetEnumDescriptionEnumerable<T>(this Type type) where T : Enum
-        {
-            foreach (T value in Enum.GetValues(typeof(T)))
-                yield return value.GetDescriptionFromValue();
-
-        }
-
-        /// <summary>
-        /// enumのDescripntionリストを取得
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static List<string> GetEnumDescriptionList<T>(this Type type) where T : Enum
-        {
-            List<string> descriptionList = new List<string>();
-            foreach (T value in Enum.GetValues(typeof(T)))
-                descriptionList.Add(value.GetDescriptionFromValue());
-
-            return descriptionList;
-        }
-
-    }
 
 
     public static class StringExtention
@@ -98,7 +59,6 @@ namespace EnumSample.Extentions
             return (T)(value ?? default(T));
 
         }
-
     }
 
     public static class IntExtention
@@ -130,14 +90,14 @@ namespace EnumSample.Extentions
         }
     }
 
-    public static class EnumList
+    public static class TypeExtention
     {
         /// <summary>
         /// enumの値リストを取得
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static List<T> GetEnumList<T>() where T : Enum
+        public static List<T> GetEnumList<T>(this Type type) where T : Enum
         {
             return Enum.GetValues(typeof(T)).Cast<T>().ToList();
         }
@@ -147,15 +107,24 @@ namespace EnumSample.Extentions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static List<string> GetEnumDescriptionList<T>() where T : Enum
+        public static IEnumerable<string> GetEnumDescriptionEnumerable<T>(this Type type) where T : Enum
         {
-            List<string> descriptions = new List<string>();
             foreach (T value in Enum.GetValues(typeof(T)))
-            {
-                var description = value.GetDescriptionFromValue();
-                descriptions.Add(description);
-            }
-            return descriptions;
+                yield return value.GetDescriptionFromValue();
+        }
+
+        /// <summary>
+        /// enumのDescripntionリストを取得
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static List<string> GetEnumDescriptionList<T>(this Type type) where T : Enum
+        {
+            List<string> descriptionList = new List<string>();
+            foreach (T value in Enum.GetValues(typeof(T)))
+                descriptionList.Add(value.GetDescriptionFromValue());
+
+            return descriptionList;
         }
     }
 }
