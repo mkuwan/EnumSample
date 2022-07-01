@@ -10,7 +10,7 @@ namespace EnumSample.Extentions
     public static class EnumExtention
     {
         /// <summary>
-        /// EnumのValueからDescriptionを取得
+        /// EnumのValueからDescriptionを取得 です
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value"></param>
